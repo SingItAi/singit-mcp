@@ -41,7 +41,7 @@ claude mcp add --transport http singit https://app.singitai.app/mcp \
 codex mcp add singit --url https://app.singitai.app/mcp --bearer-token-env-var SINGIT_API_KEY
 ```
 
-**Cursor, Windsurf and other clients with a JSON config** (see [`.mcp.json`](.mcp.json)):
+**Cursor and other clients with a `url` and `headers` JSON config** (see [`.mcp.json`](.mcp.json); Windsurf uses `serverUrl`, see [docs/clients.md](docs/clients.md)):
 
 ```json
 {

@@ -35,6 +35,10 @@ test("tools.json: every tool is complete and classified", () => {
   for (const n of Object.keys(TOOL_META)) assert.ok(names.has(n), `${n} is in TOOL_META but not in tools.json`);
 });
 
+test("tools.json records when it was captured", () => {
+  assert.match(snap.capturedAt, /^\d{4}-\d{2}-\d{2}$/);
+});
+
 test("docs/tools.md is generated from tools.json", () => {
   assert.equal(text("docs/tools.md"), renderToolsDoc(snap));
 });

@@ -55,7 +55,7 @@ export function renderToolsDoc(snapshot) {
 
 ${snapshot.tools.length} tools from the keyless \`tools/list\` response of \`${ENDPOINT}\`
 (server \`${snapshot.serverInfo.name}\` "${snapshot.serverInfo.title}" ${snapshot.serverInfo.version}, protocol ${snapshot.protocolVersion}).
-Snapshot taken 31 October 2026; \`npm run check:live\` compares it with the live server.
+Snapshot taken ${snapshot.capturedAt}; \`npm run check:live\` compares it with the live server.
 
 Paid tools are charged per call to the API key's own SingIt limits, and repeating a call charges again.
 \`get_limits\` shows what the key has spent and what is left today.

@@ -1,5 +1,6 @@
 {
   "_note": "Snapshot of the keyless tools/list response from https://app.singitai.app/mcp, taken 31 October 2026. Refresh with: npm run check:live -- --update",
+  "capturedAt": "2026-10-31",
   "serverInfo": {
     "name": "singit",
     "title": "SingIt x402",

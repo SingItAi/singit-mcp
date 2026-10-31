@@ -18,7 +18,7 @@ const { tools } = await rpc(2, "tools/list");
 const live = { serverInfo: { name: init.serverInfo.name, title: init.serverInfo.title, version: init.serverInfo.version }, protocolVersion: init.protocolVersion, tools };
 
 if (process.argv.includes("--update")) {
-  const snap = { _note: "Snapshot of the keyless tools/list response from " + ENDPOINT + ". Refresh with: npm run check:live -- --update", ...live };
+  const snap = { capturedAt: new Date().toISOString().slice(0, 10), _note: "Snapshot of the keyless tools/list response from " + ENDPOINT + ". Refresh with: npm run check:live -- --update", ...live };
   writeFileSync(new URL("../tools.json", import.meta.url), JSON.stringify(snap, null, 2) + "\n");
   console.log(`tools.json updated: ${tools.length} tools, server ${live.serverInfo.version}. Now run: npm run docs`);
   process.exit(0);

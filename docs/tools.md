@@ -3,7 +3,7 @@
 
 16 tools from the keyless `tools/list` response of `https://app.singitai.app/mcp`
 (server `singit` "SingIt x402" 0.1.3, protocol 2025-06-18).
-Snapshot taken 31 October 2026; `npm run check:live` compares it with the live server.
+Snapshot taken 2026-10-31; `npm run check:live` compares it with the live server.
 
 Paid tools are charged per call to the API key's own SingIt limits, and repeating a call charges again.
 `get_limits` shows what the key has spent and what is left today.
