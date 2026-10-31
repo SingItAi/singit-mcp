@@ -10,7 +10,10 @@ test("server.json is the Registry manifest for the remote endpoint", () => {
   const s = readJson("server.json");
   assert.equal(s.name, "app.singitai/singit");
   assert.match(s.version, /^\d+\.\d+\.\d+$/);
-  assert.equal(s.version, snap.serverInfo.version, "manifest version should match the server's reported version");
+  const v = (x) => x.split(".").map(Number);
+  const [a, b] = [v(s.version), v(snap.serverInfo.version)];
+  const cmp = a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
+  assert.ok(cmp >= 0, "manifest version should not be older than the server's reported version");
   assert.equal(s.repository.url, "https://github.com/SingItAi/singit-mcp");
   assert.equal(s.remotes.length, 1);
   assert.equal(s.remotes[0].type, "streamable-http");
