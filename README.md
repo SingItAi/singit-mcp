@@ -2,7 +2,7 @@
 
 # SingIt MCP
 
-**Prices, models, web search and market data for your agent, over MCP. Paid calls are billed to your SingIt API key and stay inside that key's limits.**
+**Give an agent SingIt tools with an MCP key with limits your owner sets: a daily limit, a per-request limit and an expiry, signed by the owner's wallet.**
 
 [![CI](https://img.shields.io/github/actions/workflow/status/SingItAi/singit-mcp/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/SingItAi/singit-mcp/actions/workflows/ci.yml)
 [![Live check](https://img.shields.io/github/actions/workflow/status/SingItAi/singit-mcp/live-check.yml?branch=main&style=flat-square&label=live%20check)](https://github.com/SingItAi/singit-mcp/actions/workflows/live-check.yml)
@@ -24,7 +24,24 @@ https://app.singitai.app/mcp
 Streamable HTTP, JSON responses only (no SSE, no sessions). MCP Registry name: `app.singitai/singit`.
 Server `singit` "SingIt x402", version 0.1.3, protocol 2025-06-18.
 
+## MCP key with limits
+
+Suggested terms: **$1 a day, $0.05 a request, 7 days**. In the SingIt app, the
+“Agent via MCP” preset fills these in. The server's own defaults when you do not
+change anything are $5 a day, $0.25 a request, 90 days. The minimum daily cap is
+$0.01 and the maximum is $1000.
+
+1. Open the [SingIt app](https://app.singitai.app/app/) and set up a SingIt allowance
+   from your wallet: a Base limiter or Solana delegation. Paid MCP search and data
+   tools need it. Without it, the tool says “Set up your allowance first.”
+2. Open Settings → API keys. Your wallet signs the name, daily limit,
+   per-request limit and duration. The key is shown once.
+3. Export `SINGIT_API_KEY` securely in the environment that launches your client.
+   Never put the key in chat, logs or a file.
+
 ## Quick start
+
+Configuration examples, not run live.
 
 The free tools and `tools/list` work **without a key**, so you can add the server and look around first.
 
@@ -56,12 +73,28 @@ codex mcp add singit --url https://app.singitai.app/mcp --bearer-token-env-var S
 
 More clients and per-client notes: [docs/clients.md](docs/clients.md).
 
-## Get a key (only for paid tools)
+## What the limits do and do not do
 
-Open the [SingIt app](https://app.singitai.app/app/), then Settings, API keys, and export the key as
-`SINGIT_API_KEY` in the environment that launches your client. Each key has its own daily and
-per-request caps and an expiry. A missing, empty or unexpanded key behaves like no key; a wrong or
-revoked key gets HTTP 401.
+The key's daily and per-request caps are enforced by SingIt's server for calls made with that key to SingIt's MCP and the same key's /v1 endpoint. They do not limit what an agent spends anywhere else. SingIt's contracts do not protect other people's agents' own wallets.
+
+On Base the owner's allowance limiter is an on-chain contract the owner can pause. On Solana key caps are checked by SingIt's server; the owner can revoke the delegation. There is no on-chain emergency stop. A paused Solana account is unpaused only by a new grant signed after the pause.
+
+For a $0.01 daily cap, the refusal from `web_api_keys.py` is:
+
+> This key's daily limit of 0.01 USDC is used up, counting requests still running. It starts again at 00:00 UTC, or raise it with a new key.
+
+This quote comes from the code, not run live. The server counts today's spend,
+held amounts for running calls and the most the next call may cost before allowing
+it. A refused call returns `isError true`; nothing is bought or charged for it.
+Stop when a limit refuses; do not try to bypass it.
+
+Revoke immediately in Settings → API keys; no wallet signature is needed.
+A wrong or revoked key returns HTTP 401. A missing, empty or unexpanded key is
+keyless: free tools only. MCP allows 60 requests a minute per key.
+A key cannot move funds or change limits.
+
+See the [MCP key guide](https://singitai.app/docs/mcp-key/) and
+[SingIt skill](https://singitai.app/SKILL.md).
 
 ## Tools
 
@@ -80,7 +113,7 @@ a paid call charges again. `get_limits` shows what the key has spent and what is
 
 ## Check that it works
 
-Neither request needs a key and neither spends anything:
+Configuration examples, not run live. Neither request needs a key and neither spends anything:
 
 ```bash
 curl -sS https://app.singitai.app/mcp \
@@ -91,6 +124,9 @@ curl -sS https://app.singitai.app/mcp \
   -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
 ```
+
+Then ask the agent to call `get_limits`: it is free, read-only, and requires a key.
+It shows spent today, held amounts for running calls, remaining daily budget and expiry.
 
 Or run the bundled check, which compares the live server with [`tools.json`](tools.json) (Node 20+, no dependencies):
 
