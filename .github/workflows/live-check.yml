@@ -1,0 +1,22 @@
+name: Live check
+
+# Compares the live SingIt MCP server with tools.json. initialize and tools/list need no key and
+# spend nothing. A red run means the server changed (or is down) and the docs here need a refresh.
+
+on:
+  schedule:
+    - cron: "23 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/check-live.mjs

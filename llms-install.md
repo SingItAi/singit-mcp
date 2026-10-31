@@ -3,7 +3,7 @@
 SingIt runs a remote MCP server at `https://app.singitai.app/mcp` (Streamable HTTP, JSON responses
 only). Tools: free price/model lookups, plus paid web search, page reading and market data, billed per
 call to your SingIt API key's own daily and per-request caps, in USDC on Base or Solana (market data tools:
-Base accounts for now). Details: `sign402-gateway/README.md#mcp-server-remote-for-claude-code-cursor-codex`.
+Base accounts for now). Details: [`sign402-gateway/README.md`](https://github.com/SingItAi/SingItAI/blob/main/sign402-gateway/README.md#mcp-server-remote-for-claude-code-cursor-codex).
 
 ## 1. Get an API key
 
@@ -26,7 +26,7 @@ plain API-key headers).
 }
 ```
 
-This repo's root `.mcp.json` has the same block for clients (like cursor.directory) that auto-detect it.
+This repository's root `.mcp.json` has the same block for clients (like cursor.directory) that auto-detect it.
 
 ## 3. Verify
 
