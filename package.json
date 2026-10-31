@@ -1,0 +1,17 @@
+{
+  "name": "singit-mcp",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Setup, tool reference and live checks for the SingIt remote MCP server. Not a published package.",
+  "type": "module",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/SingItAi/singit-mcp.git" },
+  "bugs": { "url": "https://github.com/SingItAi/singit-mcp/issues" },
+  "homepage": "https://singitai.app/docs/mcp/",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "docs": "node scripts/gen-tools-doc.mjs",
+    "check:live": "node scripts/check-live.mjs"
+  }
+}
