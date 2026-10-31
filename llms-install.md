@@ -41,9 +41,10 @@ Ask the user which client they use if it is unknown. Use Streamable HTTP.
 ### Claude Code
 
 ```bash
-claude mcp add --transport http singit https://app.singitai.app/mcp \
-  --header "Authorization: Bearer $SINGIT_API_KEY"
+claude mcp add --transport http singit https://app.singitai.app/mcp --header 'Authorization: Bearer ${SINGIT_API_KEY}'
 ```
+
+Single quotes keep ${SINGIT_API_KEY} as a reference so the key is not written into Claude Code's configuration.
 
 ### Codex
 

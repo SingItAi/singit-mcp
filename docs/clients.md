@@ -10,10 +10,12 @@ Codex command was run against codex-cli 0.163.0 on 31 October 2026; the others w
 ## Claude Code
 
 ```bash
-claude mcp add --transport http singit https://app.singitai.app/mcp --header "Authorization: Bearer $SINGIT_API_KEY"
+claude mcp add --transport http singit https://app.singitai.app/mcp --header 'Authorization: Bearer ${SINGIT_API_KEY}'
 claude mcp list
 claude mcp get singit
 ```
+
+Single quotes keep ${SINGIT_API_KEY} as a reference so the key is not written into Claude Code's configuration.
 
 For a shared project, commit this `.mcp.json` entry. Claude Code needs `type: http` for a URL entry and
 expands `${VAR}` in headers:

@@ -48,9 +48,10 @@ The free tools and `tools/list` work **without a key**, so you can add the serve
 **Claude Code**
 
 ```bash
-claude mcp add --transport http singit https://app.singitai.app/mcp \
-  --header "Authorization: Bearer $SINGIT_API_KEY"
+claude mcp add --transport http singit https://app.singitai.app/mcp --header 'Authorization: Bearer ${SINGIT_API_KEY}'
 ```
+
+Single quotes keep ${SINGIT_API_KEY} as a reference so the key is not written into Claude Code's configuration.
 
 **Codex**
 

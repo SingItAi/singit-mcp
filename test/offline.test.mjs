@@ -69,7 +69,7 @@ test("community files exist", () => {
 test("key offer and agent installation retain terms, clients and spending boundary", () => {
   const boundary = "The key's daily and per-request caps are enforced by SingIt's server for calls made with that key to SingIt's MCP and the same key's /v1 endpoint. They do not limit what an agent spends anywhere else. SingIt's contracts do not protect other people's agents' own wallets.";
   const snippets = [
-    'claude mcp add --transport http singit https://app.singitai.app/mcp \\\n  --header "Authorization: Bearer $SINGIT_API_KEY"',
+    "claude mcp add --transport http singit https://app.singitai.app/mcp --header 'Authorization: Bearer ${SINGIT_API_KEY}'",
     'codex mcp add singit --url https://app.singitai.app/mcp --bearer-token-env-var SINGIT_API_KEY',
     JSON.stringify(readJson(".mcp.json"), null, 2),
   ];
@@ -92,5 +92,12 @@ test("README quotes the daily limit refusal", () => {
   assert.ok(quote);
   for (const words of ["0.01 USDC", "used up", "counting requests still running", "00:00 UTC", "raise it with a new key"]) {
     assert.ok(quote.includes(words), `refusal missing ${words}`);
+  }
+});
+
+test("branch-owned files avoid shell expansion of the Claude Code key", () => {
+  const unsafeHeader = '--header "Authorization: Bearer ' + '$SINGIT_API_KEY"';
+  for (const f of ["README.md", "docs/clients.md", "llms-install.md", "test/offline.test.mjs", "CHANGELOG.md"]) {
+    assert.ok(!text(f).includes(unsafeHeader), `${f} contains a shell-expanded Claude Code header`);
   }
 });
