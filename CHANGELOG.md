@@ -6,6 +6,8 @@ server version is the one the live server reports (`serverInfo.version`).
 
 ## Unreleased
 
+- Cline install: add the `type: streamableHttp` block. Without `type` Cline uses legacy SSE, which this endpoint rejects with 405.
+
 - Single-quote Claude Code install headers to keep the API key reference out of shell expansion and avoid storing the literal key in its configuration.
 
 - Lead with owner-set MCP key limits and rewrite the agent install guide with
