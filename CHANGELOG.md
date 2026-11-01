@@ -6,6 +6,11 @@ server version is the one the live server reports (`serverInfo.version`).
 
 ## Unreleased
 
+- Single-quote Claude Code install headers to keep the API key reference out of shell expansion and avoid storing the literal key in its configuration.
+
+- Lead with owner-set MCP key limits and rewrite the agent install guide with
+  suggested terms, client configuration, free verification and paid-call consent.
+
 - `server.json` version 0.1.4: repository moved to SingItAi, the manifest links to this repository.
   The live server may still report 0.1.3 until the next server deploy; the offline test only requires
   the manifest not to be older than the snapshot.
