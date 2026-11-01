@@ -71,6 +71,31 @@ to find the active file):
 { "mcpServers": { "singit": { "serverUrl": "https://app.singitai.app/mcp", "headers": { "Authorization": "Bearer ${env:SINGIT_API_KEY}" } } } }
 ```
 
+## Cline
+
+Cline treats a remote entry without `type` as legacy SSE, and this endpoint answers `GET` with 405, so
+set `type` to `streamableHttp`. Open the MCP settings JSON (Cline panel → MCP Servers → Configure →
+Configure MCP Servers; Cline CLI: `~/.cline/data/settings/cline_mcp_settings.json`):
+
+```json
+{
+  "mcpServers": {
+    "singit": {
+      "type": "streamableHttp",
+      "url": "https://app.singitai.app/mcp",
+      "headers": { "Authorization": "Bearer ${env:SINGIT_API_KEY}" },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+Cline expands `${env:NAME}` in headers from the environment that launches it. The Remote Servers tab
+works too: URL above, transport Streamable HTTP, and the `Authorization` header. Checked 1 November 2026
+with the MCP SDK client (1.32.2): with `type` set, `initialize` and `tools/list` (16 tools) succeed without
+a key; without it (legacy SSE) the connection fails with 405.
+
 ## Any other client
 
 Use the generic block from [`.mcp.json`](../.mcp.json). Clients that only support a plain API-key

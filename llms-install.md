@@ -69,6 +69,28 @@ The file contains only an environment reference, never the key itself.
 }
 ```
 
+### Cline
+
+Cline assumes the legacy SSE transport when `type` is missing, and this endpoint is Streamable HTTP
+only (a `GET` returns 405), so the generic block above does not connect in Cline. Add this to
+`cline_mcp_settings.json` (Cline panel → MCP Servers → Configure → Configure MCP Servers; Cline CLI:
+`~/.cline/data/settings/cline_mcp_settings.json`). Cline expands `${env:SINGIT_API_KEY}` from the
+environment that launches it, so the file holds no key:
+
+```json
+{
+  "mcpServers": {
+    "singit": {
+      "type": "streamableHttp",
+      "url": "https://app.singitai.app/mcp",
+      "headers": { "Authorization": "Bearer ${env:SINGIT_API_KEY}" },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
 See [docs/clients.md](docs/clients.md) for client-specific notes. If a client would
 persist the expanded key, use its environment-reference configuration instead;
 never write the key to disk.
