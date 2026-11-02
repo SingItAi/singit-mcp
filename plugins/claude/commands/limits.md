@@ -1,5 +1,5 @@
 ---
-description: Show what your SingIt key may still spend today (daily and per-request limits, spent, remaining, expiry)
+description: "Show what your SingIt key may still spend today (daily and per-request limits, spent, remaining, expiry)"
 allowed-tools: mcp__plugin_singit_singit__get_limits
 ---
 

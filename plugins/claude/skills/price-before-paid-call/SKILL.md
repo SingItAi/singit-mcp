@@ -1,6 +1,6 @@
 ---
 name: price-before-paid-call
-description: Use before calling a paid SingIt tool (chat, web_search, read_page or the market data tools), so the user hears the cost and the key's remaining limit first.
+description: "Use before calling a paid SingIt tool (chat, web_search, read_page or the market data tools), so the user hears the cost and the key's remaining limit first."
 ---
 
 SingIt's paid tools charge the user's key in USDC on every call, and repeating a call charges again.

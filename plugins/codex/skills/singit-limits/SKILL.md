@@ -1,6 +1,6 @@
 ---
 name: singit-limits
-description: Show what the user's SingIt key may still spend today: daily and per-request limits, spent, remaining, expiry. Use when the user asks about their SingIt limits, budget or remaining spend.
+description: "Show what the user's SingIt key may still spend today: daily and per-request limits, spent, remaining, expiry. Use when the user asks about their SingIt limits, budget or remaining spend."
 ---
 
 Call the `get_limits` tool of the SingIt MCP server (free and read-only) and show, in a short table:

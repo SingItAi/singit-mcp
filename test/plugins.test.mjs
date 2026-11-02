@@ -81,3 +81,17 @@ test("README documents both installs and the key handling", () => {
   for (const s of ["/plugin marketplace add SingItAi/singit-mcp", "/plugin install singit@singit", "codex plugin marketplace add SingItAi/singit-mcp",
     "codex plugin add singit@singit", "/singit:limits", "/singit:receipts"]) assert.ok(readme.includes(s), `README missing ${s}`);
 });
+
+test("front matter is valid YAML: descriptions are double-quoted strings (an unquoted ': ' breaks loading)", () => {
+  const docs = FILES.filter((f) => f.endsWith(".md") && !f.endsWith("README.md"));
+  assert.equal(docs.length, 6);
+  for (const f of docs) {
+    const front = text(f).match(/^---\n([\s\S]*?)\n---\n/)[1];
+    for (const line of front.split("\n")) {
+      const m = line.match(/^([a-z-]+): (.*)$/);
+      assert.ok(m, `${f}: unexpected front matter line ${line}`);
+      if (["description", "argument-hint"].includes(m[1])) assert.equal(typeof JSON.parse(m[2]), "string", `${f}: ${m[1]} must be a quoted string`);
+      else assert.doesNotMatch(m[2], /: | #/, `${f}: ${m[1]} needs quoting`);
+    }
+  }
+});

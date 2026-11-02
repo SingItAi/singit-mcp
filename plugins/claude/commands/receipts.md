@@ -1,5 +1,5 @@
 ---
-description: List the latest charges made with your SingIt key (time, model, USDC charged, tokens)
+description: "List the latest charges made with your SingIt key (time, model, USDC charged, tokens)"
 argument-hint: "[how many, 1-50, default 10]"
 allowed-tools: mcp__plugin_singit_singit__get_receipts
 ---

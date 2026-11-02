@@ -1,6 +1,6 @@
 ---
 name: singit-receipts
-description: List the latest charges made with the user's SingIt key (time, model, USDC charged, tokens). Use when the user asks what they spent with SingIt or wants their SingIt receipts.
+description: "List the latest charges made with the user's SingIt key (time, model, USDC charged, tokens). Use when the user asks what they spent with SingIt or wants their SingIt receipts."
 ---
 
 Call the `get_receipts` tool of the SingIt MCP server (free and read-only) with `kind` set to `charge`. If the user gave a number from 1 to 50, pass it as `limit`; otherwise use the default.
