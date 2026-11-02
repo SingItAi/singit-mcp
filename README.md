@@ -67,16 +67,19 @@ Claude Code (adds the MCP server plus `/singit:limits`, `/singit:receipts` and a
 /plugin install singit@singit
 ```
 
-Codex (adds the MCP server plus the `singit-limits`, `singit-receipts` and `price-before-paid-call` skills):
+Codex (adds the MCP server with your key, plus the `singit-limits`, `singit-receipts` and `price-before-paid-call` skills). It needs
+[an MCP key with limits](#mcp-key-with-limits) in `SINGIT_API_KEY` before Codex starts: Codex does not start the server when the
+variable is unset (we checked), so for the free tools without a key use `codex mcp add singit --url https://app.singitai.app/mcp` instead.
 
 ```bash
+export SINGIT_API_KEY=...   # your MCP key
 codex plugin marketplace add SingItAi/singit-mcp
 codex plugin add singit@singit
 ```
 
-Both work without a key (free tools, `chat_free`). To use paid tools and see your limits, create an
-[MCP key with limits](#mcp-key-with-limits) and export `SINGIT_API_KEY` in the environment that starts the client; the
-plugins read it from there and never store it. `/singit:limits` and `/singit:receipts` call the free, read-only
+The Claude Code plugin works without a key (free tools, `chat_free`; it only warns about the unset variable). For paid tools and
+your limits, create an [MCP key with limits](#mcp-key-with-limits) and export `SINGIT_API_KEY` in the environment that starts the
+client; the plugins read it from there and never store it. `/singit:limits` and `/singit:receipts` call the free, read-only
 `get_limits` and `get_receipts`. The limits they show are the ones SingIt's server checks for calls made with that key to
 SingIt's MCP and /v1; they do not limit anything an agent spends elsewhere. The plugin files live in
 [`plugins/claude`](plugins/claude) and [`plugins/codex`](plugins/codex); the marketplace manifests are

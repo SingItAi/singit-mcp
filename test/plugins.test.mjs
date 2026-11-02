@@ -78,6 +78,8 @@ test("plugin copy states only what the server checks, with no claims about other
 
 test("README documents both installs and the key handling", () => {
   const readme = text("README.md");
+  assert.match(readme, /Codex does not start the server when the\nvariable is unset/);
+  assert.match(readme, /codex mcp add singit --url https:\/\/app\.singitai\.app\/mcp/);
   for (const s of ["/plugin marketplace add SingItAi/singit-mcp", "/plugin install singit@singit", "codex plugin marketplace add SingItAi/singit-mcp",
     "codex plugin add singit@singit", "/singit:limits", "/singit:receipts"]) assert.ok(readme.includes(s), `README missing ${s}`);
 });
