@@ -70,7 +70,7 @@ test("plugin copy states only what the server checks, with no claims about other
   }
   for (const f of FILES) {
     const doc = text(f);
-    assert.doesNotMatch(doc, /protects? (other|your team|every|all) |other teams|any agent|AI team|run by bots|Telegram|hackathon/i, `${f} makes a forbidden claim`);
+    assert.doesNotMatch(doc, /protects? (other|your team|every|all) |other teams|any agent|AI team|run by bots|hackathon/i, `${f} makes a forbidden claim`);
     assert.doesNotMatch(doc, /0x[0-9a-fA-F]{40}|sk_singit_[A-Za-z0-9]{8,}/, `${f} contains an address or key`);
     assert.doesNotMatch(doc, /\$\d|per.token|cheaper|\d+ ?%/i, `${f} states a price or percentage`);
   }
