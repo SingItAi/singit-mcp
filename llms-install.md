@@ -87,17 +87,19 @@ curl -sS https://app.singitai.app/mcp \
   -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
 ```
 
-Check that initialization succeeds and `tools/list` returns 16 tools. This only
-checks free access. Ask the agent to call `get_limits` through the configured
+Check that initialization succeeds and `tools/list` returns 18 tools. This only
+checks free access. After the 0.1.5 deployment, the agent may optionally call `chat_free`
+without a key for a free end-to-end check; its short answer includes
+`billing.remainingToday` and `billing.resetsAt`. Ask the agent to call `get_limits` through the configured
 client: it is free, read-only, and requires a key. Check spent today, held amounts
 for running calls, remaining daily budget and expiry against the user's terms.
 Report these results without revealing the key.
 
 ## 5. Ask the user before the first paid call
 
-Ask the user whether they agree to one paid `web_search` and what query to use.
-Only call it after they agree. A search costs about a cent or less; receipts show
-the exact amount. Read `get_receipts` and `get_limits` afterward to report the
+Ask the user before the first paid call, including `chat`, `web_search` or `read_page`,
+and agree on the prompt or query. Only call it after they agree. Receipts show
+the exact charge. `chat` needs any valid key, no extra scope, and works on Base or Solana. Read `get_receipts` and `get_limits` afterward to report the
 charge and remaining budget. Search and `read_page` need the `search` scope and
 work on Base or Solana; data tools need `tools` and are Base only for now.
 

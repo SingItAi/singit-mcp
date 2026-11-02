@@ -3,9 +3,9 @@
 
 Full reference on the website: https://singitai.app/docs/mcp-tools/
 
-16 tools from the keyless `tools/list` response of `https://app.singitai.app/mcp`
-(server `singit` "SingIt x402" 0.1.3, protocol 2025-06-18).
-Snapshot taken 2026-10-31; `npm run check:live` compares it with the live server.
+18 tools from the keyless `tools/list` response of `https://app.singitai.app/mcp`
+(server `singit` "SingIt x402" 0.1.5, protocol 2025-06-18).
+Snapshot taken 2026-11-02; `npm run check:live` compares it with the live server.
 
 Paid tools are charged per call to the API key's own SingIt limits, and repeating a call charges again.
 `get_limits` shows what the key has spent and what is left today.
@@ -15,6 +15,8 @@ Paid tools are charged per call to the API key's own SingIt limits, and repeatin
 | `get_price` | Current price of a major cryptocurrency, gold or silver (Chainlink on Base), or an exchange rate between two currencies. | `kind` (required), `symbol`, `base`, `quote` | No | none | No payment |
 | `list_price_symbols` | Every crypto, metal and currency symbol get_price supports. | none | No | none | No payment |
 | `list_models` | The AI models (chat, images or audio) available through SingIt, with their prices. | `kind` | No | none | No payment |
+| `chat_free` | Free model answers, no key needed. | `prompt`, `messages`, `model`, `max_tokens` | No | none | No payment |
+| `chat` | Paid per call from your key's SingIt balance and limits in USDC. | `prompt`, `messages`, `model`, `max_tokens`, `system` | Yes (paid) | none beyond a valid key | USDC on Base or Solana |
 | `get_balance` | Your SingIt API balance: available and held USDC, auto top-up and pending top-ups. | none | Yes (free, read-only) | account read, no paid-tool scope | Account data |
 | `get_limits` | What your API key may still spend: its daily and per-request caps, spent and remaining today, scopes and expiry, plus your account's balance and, on Base, your allowance limiter (caps, left today, approved from your wallet, paused = emergency stop, expired). | none | Yes (free, read-only) | account read, no paid-tool scope | Account data |
 | `get_receipts` | Your recent receipts, newest first: for each, its id, time, model, USDC charged, tokens and the upstream reference (kind charge, this key only), or the account's top-ups and refunds with their transaction and network. | `limit`, `kind`, `before` | Yes (free, read-only) | account read, no paid-tool scope | Account data |

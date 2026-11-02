@@ -9,7 +9,7 @@ const snap = readJson("tools.json");
 test("server.json is the Registry manifest for the remote endpoint", () => {
   const s = readJson("server.json");
   assert.equal(s.name, "app.singitai/singit");
-  assert.match(s.version, /^\d+\.\d+\.\d+$/);
+  assert.equal(s.version, "0.1.5");
   const v = (x) => x.split(".").map(Number);
   const [a, b] = [v(s.version), v(snap.serverInfo.version)];
   const cmp = a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
@@ -24,6 +24,8 @@ test("server.json is the Registry manifest for the remote endpoint", () => {
 
 test("server.json description mentions limits within the Registry length limit", () => {
   const { description } = readJson("server.json");
+  assert.equal(description, "Chat with AI models, web search, page reading and market data, inside owner-set key limits (USDC).");
+  assert.equal(description.length, 98);
   assert.ok(description.length <= 100);
   assert.match(description, /limits/i);
   assert.ok(!description.includes("cheaper"));
@@ -48,7 +50,7 @@ test(".mcp.json points at the same endpoint and reads the key from the environme
 });
 
 test("tools.json: every tool is complete and classified", () => {
-  assert.equal(snap.tools.length, 16);
+  assert.equal(snap.tools.length, 18);
   for (const t of snap.tools) {
     assert.ok(t.name && t.description && t.inputSchema && t.annotations, `${t.name} is incomplete`);
     assert.ok(TOOL_META[t.name], `${t.name} is missing from TOOL_META`);
@@ -102,7 +104,7 @@ test("key offer and agent installation retain terms, clients and spending bounda
     assert.deepEqual(json, JSON.parse(snippets[2]), `${f} client JSON differs`);
     assert.match(doc, /new grant signed after the pause/);
     assert.match(doc, /no on-chain emergency stop/);
-    assert.doesNotMatch(doc, /no admin|\bvideos?\b|\bimages?\b|cheaper|price.per.token|hackathon|AI team|run by bots|\/\.well-known\/agent-card\.json|sk_singit_/i);
+    assert.doesNotMatch(doc, /no admin|\bvideos?\b|\bimages?\b|cheaper|price.per.token|hackathon|AI team|run by bots|\/\.well-known\/agent-card\.json/i);
   }
 });
 
@@ -118,5 +120,51 @@ test("branch-owned files avoid shell expansion of the Claude Code key", () => {
   const unsafeHeader = '--header "Authorization: Bearer ' + '$SINGIT_API_KEY"';
   for (const f of ["README.md", "docs/clients.md", "llms-install.md", "test/offline.test.mjs", "CHANGELOG.md"]) {
     assert.ok(!text(f).includes(unsafeHeader), `${f} contains a shell-expanded Claude Code header`);
+  }
+});
+
+test("README contains the Claude Code 60-second guide", () => {
+  const doc = text("README.md");
+  for (const snippet of [
+    "## Claude Code in 60 seconds",
+    "claude mcp add --transport http --scope user singit https://app.singitai.app/mcp",
+    "claude mcp list",
+    "singit: https://app.singitai.app/mcp (HTTP) - ✔ Connected",
+    "Use the SingIt chat_free tool to explain x402 in two sentences.",
+    "export SINGIT_API_KEY=sk_singit_...",
+    "claude mcp remove singit --scope user",
+    "claude mcp add --transport http --scope user singit https://app.singitai.app/mcp --header 'Authorization: Bearer ${SINGIT_API_KEY}'",
+    "Use the SingIt chat tool",
+    "get_limits", "get_receipts", "https://singitai.app/docs/claude-code/",
+  ]) assert.ok(doc.includes(snippet), `README missing ${snippet}`);
+});
+
+test("install guide verifies 18 tools and optional free chat with paid chat consent", () => {
+  const doc = text("llms-install.md");
+  assert.ok(doc.includes("returns 18 tools"));
+  assert.match(doc, /optionally call `chat_free`/);
+  assert.match(doc, /Ask the user before the first paid call, including `chat`/);
+});
+
+test("chat tools carry annotations and payment metadata", () => {
+  for (const name of ["chat_free", "chat"]) {
+    const tool = snap.tools.find((t) => t.name === name);
+    assert.ok(tool, `missing ${name}`);
+    assert.equal(tool.annotations.idempotentHint, false);
+    assert.equal(tool.annotations.openWorldHint, true);
+    assert.equal(tool.annotations.readOnlyHint, true);
+    assert.equal(tool.annotations.destructiveHint, false);
+  }
+  assert.equal(TOOL_META.chat_free.key, "No");
+  assert.equal(TOOL_META.chat.key, "Yes (paid)");
+  assert.equal(TOOL_META.chat.scope, "none beyond a valid key");
+  assert.equal(TOOL_META.chat.network, "USDC on Base or Solana");
+});
+
+test("tool input schemas avoid top-level composition keywords", () => {
+  for (const tool of snap.tools) {
+    for (const keyword of ["oneOf", "anyOf", "allOf"]) {
+      assert.ok(!Object.hasOwn(tool.inputSchema, keyword), `${tool.name} has top-level ${keyword}`);
+    }
   }
 });
