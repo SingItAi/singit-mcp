@@ -10,7 +10,7 @@
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-000000?style=flat-square)](https://modelcontextprotocol.io)
 [![x402](https://img.shields.io/badge/x402-USDC-purple?style=flat-square)](https://x402.org)
 
-[Docs](https://singitai.app/docs/mcp/) · [Developers](https://singitai.app/developers/) · [Main repository](https://github.com/SingItAi/SingItAI)
+[Docs](https://singitai.app/docs/mcp/) · [Tools reference](https://singitai.app/docs/mcp-tools/) · [Developers](https://singitai.app/developers/) · [Main repository](https://github.com/SingItAi/SingItAI)
 
 </div>
 
@@ -99,7 +99,7 @@ See the [MCP key guide](https://singitai.app/docs/mcp-key/) and
 
 ## Tools
 
-16 tools. The full table, with parameters, key scope and network, is in [docs/tools.md](docs/tools.md).
+16 tools. The full reference with every parameter, allowed value, key scope and network is on the website, https://singitai.app/docs/mcp-tools/; [docs/tools.md](docs/tools.md) is the generated offline copy checked against the live server.
 
 | Group | Tools | Key |
 |---|---|---|
@@ -142,7 +142,7 @@ npm run check:live
 | `server.json` | The MCP Registry manifest for `app.singitai/singit` |
 | `.mcp.json`, `llms-install.md` | Ready-made client config and an install guide meant for LLM clients |
 | `tools.json` | Snapshot of the live `tools/list` response |
-| `docs/tools.md` | Tool reference, generated from `tools.json` |
+| `docs/tools.md` | Offline copy of the website's tools reference, generated from `tools.json` |
 | `scripts/check-live.mjs` | Free check of the live server against the snapshot |
 
 The server itself runs inside the SingIt gateway and shares code with the rest of the payment stack, so

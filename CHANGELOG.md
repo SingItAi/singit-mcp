@@ -6,6 +6,9 @@ server version is the one the live server reports (`serverInfo.version`).
 
 ## Unreleased
 
+- README points to the website's tools reference (https://singitai.app/docs/mcp-tools/); the full table stays in docs/tools.md as an offline copy.
+- `server.json` description now mentions the owner-set daily limits (98 characters, under the Registry's 100 limit). It reaches the MCP Registry only when a new manifest version is published, which also needs the server's version string bumped in the main repository.
+
 - Single-quote Claude Code install headers to keep the API key reference out of shell expansion and avoid storing the literal key in its configuration.
 
 - Lead with owner-set MCP key limits and rewrite the agent install guide with
