@@ -1,0 +1,31 @@
+{
+  "name": "singit",
+  "version": "0.1.0",
+  "description": "SingIt MCP for Claude Code: free model answers without a key, paid chat and web tools inside the daily and per-request limits of your SingIt key, and /singit:limits and /singit:receipts.",
+  "author": {
+    "name": "SingIt",
+    "email": "contact@singitai.app",
+    "url": "https://singitai.app"
+  },
+  "homepage": "https://singitai.app/docs/claude-code/",
+  "repository": "https://github.com/SingItAi/singit-mcp",
+  "license": "MIT",
+  "keywords": [
+    "singit",
+    "x402",
+    "usdc",
+    "mcp",
+    "spending-limits"
+  ],
+  "mcpServers": {
+    "singit": {
+      "type": "http",
+      "url": "https://app.singitai.app/mcp",
+      "headers": {
+        "Authorization": "Bearer ${SINGIT_API_KEY}"
+      }
+    }
+  },
+  "privacyPolicyUrl": "https://singitai.app/privacy/",
+  "icon": "./.claude-plugin/icon.png"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "singit",
+  "version": "0.1.0",
+  "description": "SingIt MCP for Codex: free model answers without a key, paid chat and web tools inside the daily and per-request limits of your SingIt key, and skills to read your limits and receipts.",
+  "author": {
+    "name": "SingIt",
+    "email": "contact@singitai.app",
+    "url": "https://singitai.app"
+  },
+  "homepage": "https://singitai.app/docs/mcp/",
+  "repository": "https://github.com/SingItAi/singit-mcp",
+  "license": "MIT",
+  "keywords": ["singit", "x402", "usdc", "mcp", "spending-limits", "codex"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "SingIt",
+    "shortDescription": "Free chat without a key; paid tools inside your key's limits",
+    "longDescription": "Adds SingIt's remote MCP server: free model answers with no key, and paid chat, web search and data tools charged to a SingIt key whose daily and per-request limits the owner sets and SingIt's server checks. Skills show your limits and receipts.",
+    "category": "Productivity",
+    "websiteURL": "https://singitai.app/docs/mcp/",
+    "privacyPolicyURL": "https://singitai.app/privacy/"
+  }
+}

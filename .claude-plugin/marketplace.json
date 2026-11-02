@@ -1,0 +1,17 @@
+{
+  "name": "singit",
+  "owner": {
+    "name": "SingIt",
+    "email": "contact@singitai.app"
+  },
+  "metadata": {
+    "description": "SingIt's MCP server for Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "singit",
+      "source": "./plugins/claude",
+      "description": "SingIt MCP: free chat without a key; paid chat and web tools inside your SingIt key's limits; /singit:limits and /singit:receipts."
+    }
+  ]
+}
