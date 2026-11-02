@@ -1,0 +1,31 @@
+{
+  "name": "singit",
+  "version": "0.1.0",
+  "description": "SingIt MCP for Codex with your SingIt key: paid chat and web tools inside the key's daily and per-request limits, and skills to read your limits and receipts. Set SINGIT_API_KEY before starting Codex.",
+  "author": {
+    "name": "SingIt",
+    "email": "contact@singitai.app",
+    "url": "https://singitai.app"
+  },
+  "homepage": "https://singitai.app/docs/mcp/",
+  "repository": "https://github.com/SingItAi/singit-mcp",
+  "license": "MIT",
+  "keywords": [
+    "singit",
+    "x402",
+    "usdc",
+    "mcp",
+    "spending-limits",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "SingIt",
+    "shortDescription": "Paid tools inside your SingIt key's limits; limits and receipts skills",
+    "longDescription": "Adds SingIt's remote MCP server with your SingIt key from SINGIT_API_KEY (Codex does not start the server if it is unset): paid chat, web search and data tools charged to a key whose daily and per-request limits the owner sets and SingIt's server checks. Skills show your limits and receipts. For the free tools without a key, use `codex mcp add singit --url https://app.singitai.app/mcp` instead.",
+    "category": "Productivity",
+    "websiteURL": "https://singitai.app/docs/mcp/",
+    "privacyPolicyURL": "https://singitai.app/privacy/"
+  }
+}
