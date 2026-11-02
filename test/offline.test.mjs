@@ -22,6 +22,25 @@ test("server.json is the Registry manifest for the remote endpoint", () => {
   assert.equal(s.remotes[0].headers[0].isRequired, false);
 });
 
+test("server.json description mentions limits within the Registry length limit", () => {
+  const { description } = readJson("server.json");
+  assert.ok(description.length <= 100);
+  assert.match(description, /limits/i);
+  assert.ok(!description.includes("cheaper"));
+});
+
+test("server.json retains only the existing Registry fields", () => {
+  assert.deepEqual(Object.keys(readJson("server.json")).sort(), [
+    "$schema", "name", "title", "description", "version", "websiteUrl", "repository", "remotes",
+  ].sort());
+});
+
+test("README and offline tools reference link to the website reference", () => {
+  for (const f of ["README.md", "docs/tools.md"]) {
+    assert.ok(text(f).includes("https://singitai.app/docs/mcp-tools/"), `${f} missing website tools reference`);
+  }
+});
+
 test(".mcp.json points at the same endpoint and reads the key from the environment", () => {
   const m = readJson(".mcp.json").mcpServers.singit;
   assert.equal(m.url, ENDPOINT);
