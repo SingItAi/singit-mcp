@@ -17,6 +17,8 @@ export const TOOL_META = {
   get_price: FREE_KEYLESS,
   list_price_symbols: FREE_KEYLESS,
   list_models: FREE_KEYLESS,
+  chat_free: FREE_KEYLESS,
+  chat: { key: "Yes (paid)", scope: "none beyond a valid key", network: "USDC on Base or Solana" },
   get_balance: ACCOUNT_READ,
   get_limits: ACCOUNT_READ,
   get_receipts: ACCOUNT_READ,

@@ -22,7 +22,41 @@ https://app.singitai.app/mcp
 ```
 
 Streamable HTTP, JSON responses only (no SSE, no sessions). MCP Registry name: `app.singitai/singit`.
-Server `singit` "SingIt x402", version 0.1.3, protocol 2025-06-18.
+Server `singit` "SingIt x402", version 0.1.5 once deployed (the live server reports 0.1.3 until then); protocol 2025-06-18.
+
+## Claude Code in 60 seconds
+
+Configuration examples, not run live. The chat tools require the gateway deployment of 0.1.5.
+
+1. Add the server without a key:
+
+   ```bash
+   claude mcp add --transport http --scope user singit https://app.singitai.app/mcp
+   claude mcp list
+   ```
+
+   The list should show `singit: https://app.singitai.app/mcp (HTTP) - ✔ Connected`.
+
+2. Ask: "Use the SingIt chat_free tool to explain x402 in two sentences."
+
+   Free, no key, short answers (up to 400 tokens), using `free/deepseek-v4.1-flash` by default.
+   The result includes `billing.remainingToday` and `billing.resetsAt`. A small daily allowance
+   is counted per network, and a shared daily budget can run out. The result also hints to
+   drop the `free/` prefix to pay with `chat`.
+
+3. For paid answers, [create an MCP key with limits](#mcp-key-with-limits), then export it
+   before starting Claude Code and replace the keyless configuration:
+
+   ```bash
+   export SINGIT_API_KEY=sk_singit_...
+   claude mcp remove singit --scope user
+   claude mcp add --transport http --scope user singit https://app.singitai.app/mcp --header 'Authorization: Bearer ${SINGIT_API_KEY}'
+   ```
+
+   Ask: "Use the SingIt chat tool to explain x402 in detail." Then use `get_limits` to
+   check the remaining budget and `get_receipts` to check the charge.
+
+See the [Claude Code guide](https://singitai.app/docs/claude-code/).
 
 ## MCP key with limits
 
@@ -99,18 +133,27 @@ See the [MCP key guide](https://singitai.app/docs/mcp-key/) and
 
 ## Tools
 
-16 tools. The full reference with every parameter, allowed value, key scope and network is on the website, https://singitai.app/docs/mcp-tools/; [docs/tools.md](docs/tools.md) is the generated offline copy checked against the live server.
+18 tools. The full reference with every parameter, allowed value, key scope and network is on the website, https://singitai.app/docs/mcp-tools/; [docs/tools.md](docs/tools.md) is the generated offline copy checked against the live server.
 
 | Group | Tools | Key |
 |---|---|---|
 | Free lookups | `get_price`, `list_price_symbols`, `list_models` | none |
+| Free answers | `chat_free` | none |
+| Chat (paid per call) | `chat` | yes, no extra scope |
 | Your account (free, read-only) | `get_balance`, `get_limits`, `get_receipts` | yes |
 | Web (paid per call) | `web_search`, `read_page` | yes, `search` scope |
 | Market and data (paid per call) | `get_weather`, `get_singit_risk_check`, `get_x_profile`, `get_crypto_news`, `get_hyperliquid_market`, `get_funding_rates`, `resolve_ens`, `get_token_price` | yes, `tools` scope |
 
-Paid calls are charged to the key's own limits, in USDC. Web tools work on Base or Solana accounts; the
+Paid calls are charged to the key's own limits, in USDC, including `chat`. Chat and web tools work on Base or Solana accounts; the
 market and data tools need a Base account for now. Read-only tools can still cost money, and repeating
 a paid call charges again. `get_limits` shows what the key has spent and what is left today.
+
+Chat needs any valid key, with no extra scope. Send exactly one of `prompt` or `messages`;
+optional `model` is an ID from `list_models` without the `free/` prefix. With `prompt`,
+you can also send `system`. `max_tokens` defaults to 1024 and can be up to 8192;
+reasoning models think inside that budget. SingIt's server enforces the key's daily
+and per-request caps for calls with that key to SingIt's MCP and /v1 only; a call
+over a cap is refused before anything is charged.
 
 ## Check that it works
 
@@ -141,7 +184,7 @@ npm run check:live
 |---|---|
 | `server.json` | The MCP Registry manifest for `app.singitai/singit` |
 | `.mcp.json`, `llms-install.md` | Ready-made client config and an install guide meant for LLM clients |
-| `tools.json` | Snapshot of the live `tools/list` response |
+| `tools.json` | Gateway-source snapshot pending deployment; refresh from live after deployment |
 | `docs/tools.md` | Offline copy of the website's tools reference, generated from `tools.json` |
 | `scripts/check-live.mjs` | Free check of the live server against the snapshot |
 

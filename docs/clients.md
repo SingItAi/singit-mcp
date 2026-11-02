@@ -9,6 +9,8 @@ Codex command was run against codex-cli 0.163.0 on 31 October 2026; the others w
 
 ## Claude Code
 
+After the 0.1.5 deployment, ask the agent to use `chat_free` for a short free answer without a key.
+
 ```bash
 claude mcp add --transport http singit https://app.singitai.app/mcp --header 'Authorization: Bearer ${SINGIT_API_KEY}'
 claude mcp list
@@ -48,6 +50,8 @@ Edit `~/.cursor/mcp.json`, then restart Cursor:
 ```
 
 ## Codex
+
+After the 0.1.5 deployment, ask the agent to use `chat_free` for a short free answer without a key.
 
 ```bash
 codex mcp add singit --url https://app.singitai.app/mcp --bearer-token-env-var SINGIT_API_KEY
