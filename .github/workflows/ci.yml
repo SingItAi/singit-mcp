@@ -26,6 +26,36 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - run: npm test
+      - run: node --test test/*.test.mjs
       - name: Tool reference is up to date
         run: node scripts/gen-tools-doc.mjs --check
+
+  stdio-package:
+    name: stdio package (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    steps:
+      - uses: actions/checkout@v4
+      # Remove this SDK checkout once @singitai/sdk 0.1.2 is on npm.
+      - uses: actions/checkout@v4
+        with:
+          repository: SingItAi/singit-js
+          ref: main
+          path: .deps/singit-js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install SDK dependencies
+        working-directory: .deps/singit-js
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - name: Install the package with the SDK taken from the checkout
+        working-directory: packages/stdio
+        run: |
+          npm pkg set "dependencies.@singitai/sdk=file:../../.deps/singit-js"
+          npm install --no-package-lock --install-links
+      - run: npm test
+        working-directory: packages/stdio

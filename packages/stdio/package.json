@@ -1,0 +1,44 @@
+{
+  "name": "@singitai/mcp",
+  "version": "0.1.0",
+  "description": "SingIt local MCP server (stdio): chat with free and paid models from your own wallet, inside limits you set. USDC on Base or Solana via x402.",
+  "type": "module",
+  "license": "MIT",
+  "author": "SingIt <contact@singitai.app>",
+  "homepage": "https://singitai.app/docs/claude-code/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SingItAi/singit-mcp.git",
+    "directory": "packages/stdio"
+  },
+  "bugs": {
+    "url": "https://github.com/SingItAi/singit-mcp/issues"
+  },
+  "bin": {
+    "singit-mcp": "bin/singit-mcp.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@singitai/sdk": "^0.1.2",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@solana/kit": "^8.6.0",
+    "viem": "^2.48.11"
+  }
+}

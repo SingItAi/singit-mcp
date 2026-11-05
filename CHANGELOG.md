@@ -6,6 +6,8 @@ server version is the one the live server reports (`serverInfo.version`).
 
 ## Unreleased
 
+- Add the separate `@singitai/mcp` local stdio package with own-wallet chat, unsigned free chat, persistent SDK limits, local receipts, redaction and offline tests. Paid chat correctly advertises `readOnlyHint:false` because it spends money. Remote manifests and plugins are unchanged. Publishing is blocked on the `@singitai/sdk 0.1.2` release; no live payment was tested.
+
 - Add a Claude Code plugin (`/plugin install singit@singit`: the MCP server, `/singit:limits`, `/singit:receipts` and a price-before-paid-call skill) and a Codex plugin with the same MCP server (it needs `SINGIT_API_KEY` set, or Codex does not start the server) and skills. The key is read from `SINGIT_API_KEY`; nothing is stored. Their copy only describes limits that SingIt's server checks for calls made with the key.
 - Document `chat_free` and `chat`, bringing the tool reference to 18 tools.
 - Add the Claude Code 60-second guide.
