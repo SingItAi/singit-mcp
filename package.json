@@ -10,7 +10,7 @@
   "homepage": "https://singitai.app/docs/mcp/",
   "engines": { "node": ">=20" },
   "scripts": {
-    "test": "node --test test/*.test.mjs",
+    "test": "node --test test/*.test.mjs && npm test --prefix packages/stdio",
     "docs": "node scripts/gen-tools-doc.mjs",
     "check:live": "node scripts/check-live.mjs"
   }

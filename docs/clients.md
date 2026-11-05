@@ -81,3 +81,17 @@ Use the generic block from [`.mcp.json`](../.mcp.json). Clients that only suppor
 header can send `x-api-key: <key>` instead of `Authorization: Bearer <key>`. If your client does not
 expand environment variables in headers, the unexpanded text is treated as "no key", so only the free
 tools will work.
+
+## Local mode (stdio)
+
+The separate `@singitai/mcp` package offers four local wallet chat/bookkeeping tools:
+
+```bash
+claude mcp add singit -- npx -y @singitai/mcp
+```
+
+Use the environment-based `mcpServers` JSON configuration in the
+[local package guide](../packages/stdio/README.md). No app login or SingIt API key;
+Node 20+ and your own wallet key are required for paid chat. Limits are local
+client-side bookkeeping, not on-chain enforcement. SDK 0.1.2 must be released
+before publishing this package. Existing remote configurations are unchanged.

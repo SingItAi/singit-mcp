@@ -24,6 +24,20 @@ https://app.singitai.app/mcp
 Streamable HTTP, JSON responses only (no SSE, no sessions). MCP Registry name: `app.singitai/singit`.
 Server `singit` "SingIt x402", version 0.1.5 once deployed (the live server reports 0.1.3 until then); protocol 2025-06-18.
 
+## Local mode (stdio)
+
+For chat from your own wallet without app login or a SingIt API key, the separate
+[`@singitai/mcp` package](packages/stdio/README.md) runs locally:
+
+```bash
+claude mcp add singit -- npx -y @singitai/mcp
+```
+
+It needs Node 20+ and a wallet key in the environment. Its small per-call and daily
+limits are client-side bookkeeping for that wallet on this machine, not on-chain
+limits. Publishing requires the unpublished `@singitai/sdk 0.1.2` release first.
+The remote URL above remains the keyed option with nothing to install locally.
+
 ## Claude Code in 60 seconds
 
 Configuration examples, not run live. The chat tools require the gateway deployment of 0.1.5.

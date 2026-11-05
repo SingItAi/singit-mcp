@@ -1,0 +1,24 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { throwawaySolana } from './keys.mjs';
+import { createKeyPairSignerFromBytes, getTransactionDecoder, verifySignature } from '@solana/kit';
+import { base58Encode } from '../src/redact.mjs';
+import { fixture, merchant, text, encodings } from './helpers.mjs';
+import { startRpc } from './solana-rpc.mjs';
+for (const format of ['base58', 'json']) test(`Solana ${format}: real upto signing against loopback RPC, settlement and limit refusals`, async t => {
+  const bytes = throwawaySolana(), signer = await createKeyPairSignerFromBytes(bytes);
+  const feePayer = (await createKeyPairSignerFromBytes(throwawaySolana())).address;
+  const rpc = await startRpc(t), m = await merchant(t, { network: 'solana', feePayer, amount: '3000', billed: '1500' });
+  const f = await fixture(t, { SINGIT_NETWORK: 'solana', SINGIT_SOLANA_PRIVATE_KEY: format === 'json' ? JSON.stringify([...bytes]) : base58Encode(bytes), SINGIT_BASE_URL: m.url, SINGIT_RPC_URL: rpc.url, SINGIT_MAX_PER_CALL_USD: '0.003', SINGIT_MAX_PER_DAY_USD: '0.004' });
+  f.secrets.push(...encodings(bytes));
+  const s = await f.connect();
+  assert.match(text(await s.call('get_limits')), new RegExp(signer.address.slice(0, 6) + '…' + signer.address.slice(-4)));
+  const r = await s.call('chat', { prompt: 'hello' }); assert.ok(!r.isError, text(r));
+  const tx = getTransactionDecoder().decode(Buffer.from(m.signatures[0].payload.openTransaction, 'base64'));
+  assert.equal(await verifySignature(signer.keyPair.publicKey, tx.signatures[signer.address], tx.messageBytes), true);
+  assert.deepEqual(rpc.calls, ['getAccountInfo', 'getLatestBlockhash', 'getSlot']); assert.deepEqual(rpc.errors, []);
+  assert.equal((await s.call('chat', { prompt: 'daily refusal' })).isError, true);
+  m.amount = '3001'; assert.equal((await s.call('chat', { prompt: 'per-call refusal' })).isError, true);
+  assert.equal(m.signatures.length, 1); assert.equal(m.requests.length, 4);
+  const log = await f.check(); assert.equal(log.split('\n').filter(Boolean).length, 2);
+});
