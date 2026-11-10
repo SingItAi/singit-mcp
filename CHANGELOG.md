@@ -6,6 +6,8 @@ server version is the one the live server reports (`serverInfo.version`).
 
 ## Unreleased
 
+- Update `server.json` to 0.1.6. Description is now “Chat, web search, page reading and market data; owner-set daily and per-request key limits (USDC).” (98 characters). It names daily and per-request key limits. The recommended longer line did not fit the Registry's 100-character cap. Publishing 0.1.6 to the MCP Registry needs the owner's merge OK, the gateway restarted with this version, and mcp-publisher. 0.1.5 is already live in the Registry (published 9 November 2026).
+
 - Add a Claude Code plugin (`/plugin install singit@singit`: the MCP server, `/singit:limits`, `/singit:receipts` and a price-before-paid-call skill) and a Codex plugin with the same MCP server (it needs `SINGIT_API_KEY` set, or Codex does not start the server) and skills. The key is read from `SINGIT_API_KEY`; nothing is stored. Their copy only describes limits that SingIt's server checks for calls made with the key.
 - Document `chat_free` and `chat`, bringing the tool reference to 18 tools.
 - Add the Claude Code 60-second guide.

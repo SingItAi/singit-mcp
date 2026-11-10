@@ -9,7 +9,7 @@ const snap = readJson("tools.json");
 test("server.json is the Registry manifest for the remote endpoint", () => {
   const s = readJson("server.json");
   assert.equal(s.name, "app.singitai/singit");
-  assert.equal(s.version, "0.1.5");
+  assert.equal(s.version, "0.1.6");
   const v = (x) => x.split(".").map(Number);
   const [a, b] = [v(s.version), v(snap.serverInfo.version)];
   const cmp = a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
@@ -24,7 +24,7 @@ test("server.json is the Registry manifest for the remote endpoint", () => {
 
 test("server.json description mentions limits within the Registry length limit", () => {
   const { description } = readJson("server.json");
-  assert.equal(description, "Chat with AI models, web search, page reading and market data, inside owner-set key limits (USDC).");
+  assert.equal(description, "Chat, web search, page reading and market data; owner-set daily and per-request key limits (USDC).");
   assert.equal(description.length, 98);
   assert.ok(description.length <= 100);
   assert.match(description, /limits/i);
